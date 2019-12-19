@@ -1,0 +1,107 @@
+<script type="text/ng-template" id="modal.html">
+    <div id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel">
+        <div class="modal-header bg-info">
+            <h4 id="exampleModalLabel" ng-if="customer.mode === 'add'" class="modal-title text-white">Add Customer</h4>
+            <h4 id="exampleModalLabel" ng-if="customer.mode === 'edit'" class="modal-title text-white">Edit Customer</h4>
+            <button type="button" customer-dismiss="modal" aria-label="Close" class="close text-light"
+                    ng-click="close()"><span
+                        aria-hidden="true">×</span></button>
+        </div>
+        <div class="modal-body" ng-cloak>
+            <div class="px-3">
+                <form name="customerForm">
+                    <div class="col-12">
+                        <div class="alert alert-danger alert-dismissible" role="alert"
+                             ng-repeat="message in errorMessages">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                            {{message}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-12">
+                            <label>Customer Name</label>
+                            <input class="form-control" type="text" name="CustomerName" ng-model="customer.CustomerName"
+                                   placeholder="First Name" ng-minlength="3" required>
+                            <div ng-messages="customerForm.CustomerName.$error" style="color:red"
+                                 ng-if="customerForm.CustomerName.$touched"
+                                 role="alert">
+                                <div ng-message="required">Please Enter Customer Name</div>
+                                <div ng-message="minlength">Customer Name is too short</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label>Email Address</label>
+                            <input class="form-control" type="email" name="EmailID" ng-model="customer.EmailID"
+                                   placeholder="Email" ng-minlength="3" required>
+
+                            <div ng-messages="customerForm.EmailID.$error" style="color:red"
+                                 ng-if="customerForm.EmailID.$touched"
+                                 role="alert">
+                                <div ng-message="required">Please Enter EmailID</div>
+                                <div ng-message="email">Please Enter Valid EmailID</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Contact Number</label>
+                            <input class="form-control" type="text" name="ContactNumber"
+                                   ng-model="customer.ContactNumber"
+                                   placeholder="Contact Number" ng-pattern="/^[6-9][0-9]{9}$/"
+                                   ng-minlength="3" required>
+
+                            <div ng-messages="customerForm.ContactNumber.$error" style="color:red"
+                                 ng-if="customerForm.ContactNumber.$touched"
+                                 role="alert">
+                                <div ng-message="required">Please Enter Contact Number</div>
+                                <div ng-message="pattern">Please Enter Valid Contact Number</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label>Password</label>
+                            <input class="form-control" type="password" name="Password" ng-model="customer.Password"
+                                   placeholder="Password" ng-minlength="5" required>
+                            <div ng-messages="customerForm.Password.$error" style="color:red"
+                                 ng-if="customerForm.Password.$touched"
+                                 role="alert">
+                                <div ng-message="required">Please Enter Password</div>
+                                <div ng-message="minlength">Password Must Be 5 Characters Long</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <label>Confirm Password</label>
+                            <input class="form-control" type="password" name="ConfirmPassword"
+                                   placeholder="Confirm Password"
+                                   ng-model="customer.ConfirmPassword" ng-pattern="customer.Password" required>
+                            <div ng-messages="customerForm.ConfirmPassword.$error" style="color:red"
+                                 ng-if="customerForm.ConfirmPassword.$touched"
+                                 role="alert">
+                                <div ng-message="required">Please Re-Enter Password</div>
+                                <div ng-message="pattern">Password Does Not Matches</div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer bg-light">
+        <button type="button" class="btn btn-raised btn-primary" ng-if="customer.mode=='add'"
+                ng-disabled="!customerForm.$valid || isPosting" ng-click="addNewCustomer()">
+            <i class="fa fa-save"></i> Add Customer
+        </button>
+        <button type="button" class="btn btn-raised btn-warning" ng-if="customer.mode=='edit'"
+                ng-disabled="!customerForm.$valid " ng-click="editCustomer()">
+            <i class="fa fa-edit"></i> Edit Customer
+        </button>
+        <button type="button" data-dismiss="modal" class="btn btn-raised btn-danger" ng-click="close()"><i
+                    class="fa fa-times"></i> Close
+        </button>
+    </div>
+</script>
+
+
